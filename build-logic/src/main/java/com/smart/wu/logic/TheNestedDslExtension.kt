@@ -93,6 +93,15 @@ open class NestedDslHandler(
 
     }
 
+    fun service(v: Closure<Any>) {
+        dslScope.manager.context =
+            dslScope.manager.DepContext(stair, name, "service")
+
+        project.dependencies(v)
+
+        dslScope.manager.context = null
+    }
+
     fun api(v: Closure<Any>) {
         dslScope.manager.context =
             dslScope.manager.DepContext(stair, name, "api")
