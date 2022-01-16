@@ -4,6 +4,9 @@ import groovy.lang.Closure
 import org.gradle.api.*
 import org.gradle.api.provider.Property
 
+const val NESTED_FEATURE = "nested.enable"
+const val NESTED_EXCLUDE_LIST = "nested.exclude.list"
+
 open class TheNestedDslExtension(
     private val project: Project,
     val dslScope: NestedDslScope
@@ -44,17 +47,31 @@ open class TheNestedDslExtension(
 
 
     companion object {
-        internal fun Project.theNested(): TheNestedDslExtension =
-            extensions.create(
+
+
+        internal fun Project.theNested(): TheNestedDslExtension {
+            val nestedFeature = properties.getOrDefault(NESTED_FEATURE, true) as Boolean
+
+            val excludeList =
+                loadFromProperties(NESTED_EXCLUDE_LIST, properties as Map<String, Any>)
+
+            return extensions.create(
                 "nestedDsl",
                 TheNestedDslExtension::class.java,
                 this,
-                NestedDslScope()
+                NestedDslScope(nestedFeature ,excludeList)
             )
+        }
+
+
+
+
     }
 
 
 }
+
+
 
 
 open class NestedDslHandler(
@@ -121,6 +138,23 @@ open class NestedDslHandler(
         dslScope.manager.context = null
     }
 
+
+}
+
+fun loadFromProperties(key:String ,config:Map<String, Any>):List<String>{
+   val list= mutableListOf<String>()
+    config[key]?.run {
+
+        this as String
+    }?.run {
+        split(".")
+    }?.forEach { str ->
+        if (str.trim()!=""){
+            list.add(str.trim())
+        }
+    }
+
+    return list
 
 }
 

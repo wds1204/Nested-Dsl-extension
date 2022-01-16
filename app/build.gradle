@@ -62,9 +62,10 @@ nestedDsl {
             biz {
                 implementation 'androidx.core:core-ktx:1.7.0'
             }
-            api {
+            service{
+
             }
-            dep {
+            api {
             }
             description "ui service api dep"
 

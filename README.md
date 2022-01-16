@@ -22,28 +22,19 @@ plugins {
 
 ```groovy
 nestedDsl {
-    framework{
-        core{
-            dep{
-            }
-        }
-    }
-    base {
-        baseSdk {
-            dep {
-                implementation "androidx.core:core:1.3.2"
-            }
-        }
-    }
 
-    business {
-        usercenter {
-            ui {
+    business {//第一级节点
+        usercenter {//第二级节点 可自定义
+            ui {//第三级节点 
                 implementation 'com.google.android.material:material:1.4.0'
             }
             biz {
                 implementation 'androidx.core:core-ktx:1.7.0'
             }
+            service{
+                
+            }
+            
             api {
             }
 
@@ -60,10 +51,31 @@ nestedDsl {
         }
     }
 
+
+    framework{
+        core{
+            dep{
+            }
+        }
+    }
+    base {
+        baseSdk {
+            dep {
+                implementation "androidx.core:core:1.3.2"
+            }
+        }
+    }
+
+
 }
 ```
 `nestedDsl`为根节点，此节点下分为固定的`framework`、`base`、`business`三个节点。`framework`、`base`、`business`这三个节点下
-可自定自己的模块，比如上述例子中在`business`下定义`usercenter`和`login`业务模块。然后又把业务模块分为`ui`、`api`、`biz`,这是根据
+可自定自己的模块，比如上述例子中在`business`下定义`usercenter`和`login`业务模块。然后又把业务模块分为`ui`、`api`、`biz`、`service`,主要根据
 日常组件化开发经验做出的分类。
+
+
+
+
+
 
 
