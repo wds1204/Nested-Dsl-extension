@@ -42,7 +42,9 @@ dependencies {
 }
 
 nestedDsl {
+    framework{
 
+    }
     base {
         baseSdk {
             dep {
