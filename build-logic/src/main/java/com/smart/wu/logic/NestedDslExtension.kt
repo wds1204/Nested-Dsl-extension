@@ -29,25 +29,19 @@ open class TheNestedDslExtension(
     fun business(action: Action<NamedDomainObjectContainer<NestedDslHandler>>) {
         dslScope.manager.addFirstStairs("business")
         action.execute(business)
-
     }
 
     fun framework(action: Action<NamedDomainObjectContainer<NestedDslHandler>>) {
         dslScope.manager.addFirstStairs("framework")
         action.execute(framework)
-
-
     }
 
     fun base(action: Action<NamedDomainObjectContainer<NestedDslHandler>>) {
         dslScope.manager.addFirstStairs("base")
         action.execute(base)
-
     }
 
-
     companion object {
-
 
         internal fun Project.theNested(): TheNestedDslExtension {
             val nestedFeature = properties.getOrDefault(NESTED_FEATURE, true) as Boolean
@@ -59,19 +53,14 @@ open class TheNestedDslExtension(
                 "nestedDsl",
                 TheNestedDslExtension::class.java,
                 this,
-                NestedDslScope(nestedFeature ,excludeList)
+                NestedDslScope(nestedFeature, excludeList)
             )
         }
-
-
-
 
     }
 
 
 }
-
-
 
 
 open class NestedDslHandler(
@@ -91,65 +80,46 @@ open class NestedDslHandler(
     }
 
     fun ui(v: Closure<Any>) {
-        dslScope.manager.context =
-            dslScope.manager.DepContext(stair, name, "ui")
-
-        project.dependencies(v)
-
-        dslScope.manager.context = null
-
+        actionFun(v, "ui")
     }
 
+
     fun biz(v: Closure<Any>) {
-        dslScope.manager.context =
-            dslScope.manager.DepContext(stair, name, "biz")
-
-        project.dependencies(v)
-
-        dslScope.manager.context = null
-
+        actionFun(v, "biz")
     }
 
     fun service(v: Closure<Any>) {
-        dslScope.manager.context =
-            dslScope.manager.DepContext(stair, name, "service")
-
-        project.dependencies(v)
-
-        dslScope.manager.context = null
+        actionFun(v, "service")
     }
 
     fun api(v: Closure<Any>) {
-        dslScope.manager.context =
-            dslScope.manager.DepContext(stair, name, "api")
-
-        project.dependencies(v)
-
-        dslScope.manager.context = null
+        actionFun(v, "api")
 
     }
 
     fun dep(v: Closure<Any>) {
+        actionFun(v, "dep")
+    }
+
+    internal fun actionFun(v: Closure<Any>, innerName: String) {
         dslScope.manager.context =
-            dslScope.manager.DepContext(stair, name, "dep")
-
+            dslScope.manager.DepContext(stair, name, innerName)
         project.dependencies(v)
-
         dslScope.manager.context = null
     }
 
 
 }
 
-fun loadFromProperties(key:String ,config:Map<String, Any>):List<String>{
-   val list= mutableListOf<String>()
+fun loadFromProperties(key: String, config: Map<String, Any>): List<String> {
+    val list = mutableListOf<String>()
     config[key]?.run {
 
         this as String
     }?.run {
         split(".")
     }?.forEach { str ->
-        if (str.trim()!=""){
+        if (str.trim() != "") {
             list.add(str.trim())
         }
     }

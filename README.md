@@ -1,4 +1,4 @@
-# Nested-Dsl-Extension
+# nested-dsl-extension
 组件化开发，对依赖模块进行分类管理,通过配置减少依赖编译
 
 ## 插件接入
@@ -72,6 +72,8 @@ nestedDsl {
 `nestedDsl`为根节点，此节点下分为固定的`framework`、`base`、`business`三个节点。`framework`、`base`、`business`这三个节点下
 可自定自己的模块，比如上述例子中在`business`下定义`usercenter`和`login`业务模块。然后又把业务模块分为`ui`、`api`、`biz`、`service`,主要根据
 日常组件化开发经验做出的分类。
+
+
 
 
 
