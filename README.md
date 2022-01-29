@@ -1,4 +1,4 @@
-# nested-dsl-extension
+# build-logic
 组件化开发，对依赖模块进行分类管理,通过配置减少依赖编译
 
 ## 插件接入
